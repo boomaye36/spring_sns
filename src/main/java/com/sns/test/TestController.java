@@ -29,4 +29,9 @@ public class TestController {
 	 public List<Map<String, Object>> database(){
 		 return testDAO.selectTestList();
 	 }
+	 
+	@RequestMapping("/signup")
+	public String signin() {
+		return "test/signup";
+	}
 }
