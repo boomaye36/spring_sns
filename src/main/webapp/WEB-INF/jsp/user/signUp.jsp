@@ -92,9 +92,10 @@ $(document).ready(function(){
 		 if ($('#confirmOk').hasClass('d-none') === true){
 				alert("아이디 중복확인을 다시 해주세요.");
 			}
-		 $(this)[0].submit();
+		 //$(this)[0].submit();
 		 let url = $(this).attr('action');
 		 let params = $(this).serialize();
+		 console.log(params);
 		 $.post(url, params)
 		 .done(function(data){
 			if (data.code == 100){
