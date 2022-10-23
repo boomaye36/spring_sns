@@ -97,8 +97,12 @@ $(document).ready(function(){
 		 //$(this)[0].submit();
 		 let url = $(this).attr('action');
 		 let params = $(this).serialize();
+<<<<<<< HEAD
 		// console.log(params);
 		//alert(params);
+=======
+		 console.log(params);
+>>>>>>> 5e09560db0c3751dba53645d254c2e3083e3c503
 		 $.post(url, params)
 			.done(function(data) {
 				if (data.code == 100){
