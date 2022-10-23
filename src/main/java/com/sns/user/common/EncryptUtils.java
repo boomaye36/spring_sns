@@ -1,4 +1,4 @@
-package com.sns.user;
+package com.sns.user.common;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
