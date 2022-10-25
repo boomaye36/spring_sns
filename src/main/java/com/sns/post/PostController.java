@@ -14,7 +14,7 @@ public class PostController {
 		if (userId == null) {
 			return "redirect:/user/sign_in_view";
 		}
-		model.addAttribute("viewName", "post/postList");
+		model.addAttribute("viewName", "timeline/timeline");
 		return "template/layout";
 	}
 }

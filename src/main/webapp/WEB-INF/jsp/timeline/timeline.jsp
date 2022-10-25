@@ -96,7 +96,7 @@ $(document).ready(function() {
 		//alert("체인지");
 		
 		let fileName = e.target.files[0].name; // ex) cat-g4c8e76014_640.jpg
-		alert(fileName);
+		//alert(fileName);
 		let ext = fileName.split('.').pop().toLowerCase();
 		
 		// 확장자 유효성 확인
@@ -108,6 +108,7 @@ $(document).ready(function() {
 			alert("이미지 파일만 업로드 할 수 있습니다.");
 			$(this).val(''); // 파일 태그에 실제 파일 제거
 			$('#fileName').text(''); // 파일 이름 비우기
+			//alert(fileName);
 			return;
 		}
 		
@@ -116,13 +117,19 @@ $(document).ready(function() {
 	});
 	$('#writeBtn').on('click', function(){
 		let writeTextArea = $('#writeTextArea').val().trim();
+		let file = $('#file').val();
+		
 		if (writeTextArea == ''){
 			alert("내용을 입력하세요");
 			return;
 		}
+		if (file == ''){
+			alert("파일이 존재하지 않습니다.");
+			return;
+		}
 		let formData = new FormData();
 		formData.append("writeTextArea", writeTextArea);
-		formData.append("file", $('#file')[0].file[0]);
+		formData.append("file", $('#file')[0].files[0]);
 		
 		$.ajax({
 			type:"POST"
@@ -133,11 +140,16 @@ $(document).ready(function() {
 			,contentType:false
 			
 			,success:function(data){
-				if (data.code == 100){ // 성공
+				if (data.code == 100){
 					alert("메모가 저장되었습니다.");
 					location.href="/post/post_create_view"
-				}else{
-					alert(data.errorMessage); // 실패
+				}
+				else if (data.code == 200){
+					alert("로그인을 해야합니다.")
+					location.href="/user/sign_in_view"
+				}
+				else{
+					alert(data.errorMessage); 
 				}
 			}
 		,	error:function(e){

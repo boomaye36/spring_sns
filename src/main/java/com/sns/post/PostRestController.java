@@ -27,8 +27,13 @@ public class PostRestController {
 			HttpSession session){
 		String userLoginId = (String)session.getAttribute("userLoginId");
 		Integer userId = (Integer)session.getAttribute("userId");
-		int row = postBO.addPost(userId, userLoginId, writeTextArea, file);
 		Map<String, Object>result = new HashMap<>();
+		if (userId == null) {
+			result.put("code", 200);
+			return result;
+		}
+		int row = postBO.addPost(userId, userLoginId, writeTextArea, file);
+		
 		if (row > 0) {
 			result.put("code", 100); // 성공
 			result.put("result", "success");

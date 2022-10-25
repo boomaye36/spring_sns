@@ -18,12 +18,10 @@ public class PostBO {
 	public int addPost(int userId, String userLoginId, String writeTextArea, MultipartFile file) {
 		String imagePath = null;
 		if (file != null) {
-			// 파일이 있을 때만 업로드 처리 => 서버에 업로드
 			imagePath = fileManagerService.saveFile(userLoginId, file);
 		}
 		
-		// db insert => dao
-		//return postDAO.insertPost(userId, subject, content, imagePath);
-		return 1;
+		
+		return postDAO.insertPost(userId, writeTextArea, imagePath);
 	}
 }
