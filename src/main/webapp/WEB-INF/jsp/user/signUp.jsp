@@ -62,7 +62,7 @@ $(document).ready(function(){
 	});
 });
 	
-	$('#signupBtn').on('submit', function(e){
+	$('#signUpForm').on('submit', function(e){
 		e.preventDefault();
 		let loginId = $('#loginId').val().trim();
 		let userPw = $('#userPw').val().trim();
