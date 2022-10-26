@@ -75,7 +75,7 @@
 					<%-- 댓글 쓰기 --%>
 					<div class="comment-write d-flex border-top mt-2">
 						<input type="text" class="form-control border-0 mr-2" placeholder="댓글 달기"/> 
-						<button type="button" class="commentBtn btn btn-light">게시</button>
+						<button type="button" class="commentBtn btn btn-light" data-post-id="${post.id }">게시</button>
 					</div>
 				</div>
 			</div> <%--// 카드1 닫기 --%>
@@ -155,9 +155,17 @@ $(document).ready(function() {
 		,	error:function(e){
 				alert("메모 저장에 실패했습니다.");
 		}
-		});
+		}); // ---ajax 끝
+	}); // ---글쓰기 버튼 끝
+	// 댓글 게시버튼 클릭
+	$('.commentBtn').on('click', function(){
+		//alert("댓글 게시 클릭");
+		let postId = $(this).data('post-id'); //data의 postId
+		//alert(postId);
+		// 지금 클릭된 게시 버튼의 형제인 input 태그를 가져온다. (siblings)
+		let comment = $(this).siblings('input').val().trim();
+		alert(comment);
 	});
 	
-	
-});
+}); // --- ready 끝
 </script>
