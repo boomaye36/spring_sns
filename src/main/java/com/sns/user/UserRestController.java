@@ -25,8 +25,8 @@ public class UserRestController {
 	public Map<String, Object> isDuplicatedId(
 			@RequestParam("loginId")String loginId){
 		Map<String, Object> result = new HashMap<>();
-		boolean isDuplicated = userBO.existLoginId(loginId);
-		if (isDuplicated) {
+		int existRowCount  = userBO.existLoginId(loginId);
+		if (existRowCount > 0) {
 			result.put("result", true);
 			result.put("code", 100);
 		}else {

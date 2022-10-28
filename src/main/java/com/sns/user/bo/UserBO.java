@@ -11,7 +11,7 @@ import com.sns.user.model.User;
 public class UserBO {
 	@Autowired
 	private UserDAO userDAO;
-	public boolean existLoginId(String loginId) {
+	public int existLoginId(String loginId) {
 		return userDAO.existingLoginId(loginId);
 	}
 	public void addUser(String loginId, String userPw,String name,String email) {
