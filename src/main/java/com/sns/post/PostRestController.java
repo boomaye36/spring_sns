@@ -22,7 +22,7 @@ public class PostRestController {
 	@PostMapping("/create")
 	
 	public Map<String, Object> create(
-			@RequestParam("writeTextArea") String writeTextArea,
+			@RequestParam("content") String content,
 			@RequestParam(value="file", required=false) MultipartFile file,
 			HttpSession session){
 		String userLoginId = (String)session.getAttribute("userLoginId");
@@ -32,7 +32,7 @@ public class PostRestController {
 			result.put("code", 200);
 			return result;
 		}
-		int row = postBO.addPost(userId, userLoginId, writeTextArea, file);
+		int row = postBO.addPost(userId, userLoginId, content, file);
 		
 		if (row > 0) {
 			result.put("code", 100); // 성공

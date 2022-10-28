@@ -1,5 +1,7 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="d-flex justify-content-center">
 	<div class="contents-box">
 		<%-- 글쓰기 영역 --%>
@@ -25,6 +27,8 @@
 		
 		<%-- 타임라인 영역 --%>
 		<div class="timeline-box my-5">
+			<c:forEach items="${postList}" var="post">
+			
 			<%-- 카드1 --%>
 			<div class="card border rounded mt-3">
 				<%-- 글쓴이, 더보기(삭제) --%>
@@ -37,7 +41,7 @@
 				
 				<%-- 카드 이미지 --%>
 				<div class="card-img">
-					<img src="" class="w-100" alt="본문 이미지">
+					<img src="${post.imagePath}" class="w-100" alt="본문 이미지">
 				</div>
 				
 				<%-- 좋아요 --%>
@@ -53,7 +57,7 @@
 				<%-- 글 --%>
 				<div class="card-post m-3">
 					<span class="font-weight-bold">글쓴이명</span>
-					<span>글 내용</span>
+					<span>${post.content}</span>
 				</div>
 				
 				<%-- 댓글 --%>
@@ -75,10 +79,11 @@
 					<%-- 댓글 쓰기 --%>
 					<div class="comment-write d-flex border-top mt-2">
 						<input type="text" class="form-control border-0 mr-2" placeholder="댓글 달기"/> 
-						<button type="button" class="commentBtn btn btn-light" data-post-id="${post.id }">게시</button>
+						<button type="button" class="comment-btn btn btn-light" data-post-id="${post.id}">게시</button>
 					</div>
 				</div>
 			</div> <%--// 카드1 닫기 --%>
+			</c:forEach>
 		</div> <%--// 타임라인 영역 닫기  --%>
 	</div>
 </div>
@@ -101,71 +106,82 @@ $(document).ready(function() {
 		
 		// 확장자 유효성 확인
 		if (fileName.split('.').length < 2 || 
-				( ext!= 'gif'
+				(ext != 'gif'
 						&& ext != 'png'
 							&& ext != 'jpg'
 								&& ext != 'jpeg')) {
 			alert("이미지 파일만 업로드 할 수 있습니다.");
 			$(this).val(''); // 파일 태그에 실제 파일 제거
 			$('#fileName').text(''); // 파일 이름 비우기
-			//alert(fileName);
 			return;
 		}
 		
 		// 상자에 업로드 된 이름 노출
-		$('#fileName').text(fileName)
-	});
-	$('#writeBtn').on('click', function(){
-		let writeTextArea = $('#writeTextArea').val().trim();
-		let file = $('#file').val();
-		
-		if (writeTextArea == ''){
-			alert("내용을 입력하세요");
-			return;
-		}
-		if (file == ''){
-			alert("파일이 존재하지 않습니다.");
-			return;
-		}
-		let formData = new FormData();
-		formData.append("writeTextArea", writeTextArea);
-		formData.append("file", $('#file')[0].files[0]);
-		
-		$.ajax({
-			type:"POST"
-			,url:"/post/create"
-			,data:formData
-			,enctype:"multipart/form-data"
-			,processData:false
-			,contentType:false
-			
-			,success:function(data){
-				if (data.code == 100){
-					alert("메모가 저장되었습니다.");
-					location.href="/post/post_create_view"
-				}
-				else if (data.code == 200){
-					alert("로그인을 해야합니다.")
-					location.href="/user/sign_in_view"
-				}
-				else{
-					alert(data.errorMessage); 
-				}
-			}
-		,	error:function(e){
-				alert("메모 저장에 실패했습니다.");
-		}
-		}); // ---ajax 끝
-	}); // ---글쓰기 버튼 끝
-	// 댓글 게시버튼 클릭
-	$('.commentBtn').on('click', function(){
-		//alert("댓글 게시 클릭");
-		let postId = $(this).data('post-id'); //data의 postId
-		//alert(postId);
-		// 지금 클릭된 게시 버튼의 형제인 input 태그를 가져온다. (siblings)
-		let comment = $(this).siblings('input').val().trim();
-		alert(comment);
+		$('#fileName').text(fileName);
 	});
 	
-}); // --- ready 끝
+	// 글쓰기 게시
+	$('#writeBtn').on('click', function() {
+		// validation 
+		let content = $('#writeTextArea').val();
+		console.log(content);
+		if (content.length < 1) {
+			alert("글 내용을 입력해주세요");
+			return;
+		}
+		
+		let file = $('#file').val();
+		if (file == '') {
+			alert('파일을 업로드 해주세요');
+			return;
+		}
+		
+		// 파일이 업로드 된 경우 확장자 체크
+		let ext = file.split('.').pop().toLowerCase(); // 파일 경로를 .으로 나누고 확장자가 있는 마지막 문자열을 가져온 후 모두 소문자로 변경
+		if ($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
+			alert("gif, png, jpg, jpeg 파일만 업로드 할 수 있습니다.");
+			$('#file').val(''); // 파일을 비운다.
+			return;
+		}
+		
+		// 폼태그를 자바스크립트에서 만든다.
+		let formData = new FormData();
+		formData.append("content", content);
+		formData.append("file", $('#file')[0].files[0]); // $('#file')[0]은 첫번째 input file 태그를 의미, files[0]는 업로드된 첫번째 파일
+		
+		// AJAX form 데이터 전송
+		$.ajax({
+			type: "post"
+			, url: "/post/create"
+			, data: formData
+			, enctype: "multipart/form-data"    // 파일 업로드를 위한 필수 설정
+			, processData: false    // 파일 업로드를 위한 필수 설정
+			, contentType: false    // 파일 업로드를 위한 필수 설정
+			, success: function(data) {
+				if (data.code == 100) {
+					location.reload();
+				} else if (data.code == 300) { // 비로그인 일 때
+					location.href = "/user/sign_in_view";
+				} else {
+					alert(data.errorMessage);
+				}
+			}
+			, error: function(e) {
+				alert("글 저장에 실패했습니다. 관리자에게 문의해주세요.");
+			}
+		});  // --- ajax 끝
+	}); //--- 글쓰기 버튼 끝
+	
+	// 댓글 게시버튼 클릭
+	$('.comment-btn').on('click', function() {
+		//alert("댓글 게시 클릭");
+		let postId = $(this).data('post-id');  // data-post-id
+		//alert(postId);
+		// 지금 클릭된 게시 버튼의 형제인 input 태그를 가져온다.(siblings)
+		let comment = $(this).siblings('input').val().trim();
+		//alert(comment);
+	});
+	
+	
+}); //-- ready 끝
 </script>
