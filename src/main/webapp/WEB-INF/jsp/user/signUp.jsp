@@ -88,6 +88,11 @@ $(document).ready(function(){
 		 if (email == ''){
 			 alert("이메일을 입력하세요");
 			 return false;
+			 
+		 if (email.contains("@") == false){
+			 alert ("이메일 형식이 옳바르지 않습니다. ");
+			 return false;
+		 }	 
 
 		 }
 		 if ($('#confirmOk').hasClass('d-none') === true){
