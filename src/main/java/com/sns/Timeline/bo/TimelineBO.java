@@ -51,9 +51,14 @@ public class TimelineBO {
 			List<CommentView> commentList = commentBO.generateCommentViewListByPostId(post.getId());
 			card.setCommentList(commentList);
 			
-			// 내가 좋아요를 눌렀는지 
-			int count = likeBO.getLikeCountByPostIdOrUserId(post.getId(), userId);
-			card.setFilledLike(count > 0);
+			// 내가 좋아요를 눌렀는지
+			if (userId == null) {
+				card.setFilledLike(false);
+			} else {
+				int count = likeBO.getLikeCountByPostIdOrUserId(post.getId(), userId);
+				card.setFilledLike(count > 0 ? true : false);
+			}
+			
 			// 좋아요 개수
 			card.setLikeCount(likeBO.getLikeCountByPostIdOrUserId(post.getId(), null));
 			

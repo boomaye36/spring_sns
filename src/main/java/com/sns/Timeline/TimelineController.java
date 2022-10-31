@@ -12,14 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.sns.Timeline.bo.TimelineBO;
 import com.sns.Timeline.model.CardView;
-import com.sns.post.bo.PostBO;
 
 @RequestMapping("/timeline")
 @Controller
 public class TimelineController {
 
-	@Autowired
-	private PostBO postBO;
 	
 	@Autowired
 	private TimelineBO timelineBO;

@@ -33,7 +33,7 @@ public class LikeRestController {
 		}
 		
 		// 좋아요 있으면 삭제 / 없으면 추가
-		//likeBO.like(postId, userId);
+		likeBO.likeToggle(postId, userId);
 		
 		result.put("code", 100); // 성공
 		result.put("result", "success");
@@ -41,5 +41,3 @@ public class LikeRestController {
 		return result;
 	}
 }
-
-

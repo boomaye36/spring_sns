@@ -1,6 +1,5 @@
 package com.sns.Timeline.model;
 
-
 import java.util.List;
 
 import com.sns.comment.model.CommentView;
