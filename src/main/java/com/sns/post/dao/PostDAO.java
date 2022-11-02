@@ -19,4 +19,6 @@ import com.sns.post.model.Post;
 		public Post selectPostById(int id);
 		
 		public void deletePostByPostId(int postId);
+
+		public void deleteCommentByPostId(int postId);
 }

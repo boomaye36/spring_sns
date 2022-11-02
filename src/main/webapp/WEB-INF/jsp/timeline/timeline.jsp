@@ -28,11 +28,11 @@
 		<%--// 글쓰기 영역 끝 --%>
 
 		<%-- 타임라인 영역 --%>
-		<div class="timeline-box my-5">
+		<div class="timeline-box my-5 ">
 			<c:forEach items="${cardList}" var="card">
 
 				<%-- 카드1 --%>
-				<div class="card border rounded mt-3">
+				<div class="card border rounded mt-3 ">
 					<%-- 글쓴이, 더보기(삭제) --%>
 					<div class="p-2 d-flex justify-content-between">
 						<span class="font-weight-bold">${card.user.loginId}</span> <a
@@ -82,9 +82,9 @@
 								<span>${commentView.comment.content}</span>
 
 								<%-- 댓글 삭제 버튼 --%>
-								<a href="#" class="commentDelBtn"> <img
+								<a href="#" class="commentDelBtn" data-post-id="${card.post.id }"> <img
 									src="https://www.iconninja.com/files/603/22/506/x-icon.png"
-									width="10px" height="10px">
+									width="10px" height="10px"> 
 								</a>
 							</div>
 						</c:forEach>
@@ -307,5 +307,29 @@
 
 					});
 				});
+				$('.commentDelBtn').on('click', function(e){
+					e.preventDefault();
+					let postId = $(this).data('post-id');
+					//alert(postId);
+					$.ajax({
+						
+						type:"DELETE",
+						url:"/comment/delete",
+						data:{
+							"postId":postId
+						},
+						success:function(data){
+							if (data.code == 100){
+								location.href="/timeline/timeline_view";
+							}else {
+								alert("다시 시도해주세요");
+							}
+								
+						},error : function(e) {
+							alert("글 삭제하는데 실패했습니다.");
+						}
+					});
+				});
+			
 			});//-- ready 끝
 </script>

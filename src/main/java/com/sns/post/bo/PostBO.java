@@ -68,5 +68,6 @@ public class PostBO {
 		
 		// 댓글들 삭제
 	}
+	
 }
 	

@@ -6,12 +6,14 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sns.comment.bo.CommentBO;
+import com.sns.post.bo.PostBO;
 
 @RequestMapping("/comment")
 @RestController
@@ -19,7 +21,8 @@ public class CommentRestController {
 	
 	@Autowired
 	private CommentBO commentBO;
-
+	@Autowired
+	private PostBO postBO;
 	@PostMapping("/create")
 	public Map<String, Object> createComment(
 			@RequestParam("postId") int postId,
@@ -41,6 +44,18 @@ public class CommentRestController {
 		result.put("code", 100); // 성공
 		result.put("result", "success");
 		
+		return result;
+	}
+	@DeleteMapping("/delete")
+	public Map<String, Object>deleteComment(
+			@RequestParam("postId") int postId,
+			HttpSession session){
+		int userId = (int)session.getAttribute("userId");
+		commentBO.deleteCommentByPostId(postId);
+		Map<String, Object>result = new HashMap<>();
+		
+		result.put("code", 100);
+		result.put("result", "success");
 		return result;
 	}
 }

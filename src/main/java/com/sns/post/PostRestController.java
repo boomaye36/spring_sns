@@ -63,6 +63,7 @@ public class PostRestController {
 		
 		return result;
 	}
+	
 //	@RequestMapping("/post_list_view")
 //	public String postListView(Model model) {
 //		model.addAttribute("viewName", "timeline/timeline");
