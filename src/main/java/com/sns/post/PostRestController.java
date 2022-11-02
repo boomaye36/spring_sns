@@ -30,10 +30,10 @@ public class PostRestController {
 		String userLoginId = (String)session.getAttribute("userLoginId");
 		Integer userId = (Integer)session.getAttribute("userId");
 		Map<String, Object>result = new HashMap<>();
-		if (userId == null) {
-			result.put("code", 200);
-			return result;
-		}
+//		if (userId == null) {
+//			result.put("code", 200);
+//			return result;
+//		}
 		int row = postBO.addPost(userId, userLoginId, content, file);
 		
 		if (row > 0) {
