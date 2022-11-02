@@ -15,4 +15,8 @@ import com.sns.post.model.Post;
 				@Param("imagePath") String imagePath);
 
 		public List<Post> selectPostList(); 
+		
+		public Post selectPostById(int id);
+		
+		public void deletePostByPostId(int postId);
 }

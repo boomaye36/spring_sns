@@ -54,6 +54,9 @@ public class CommentBO {
 		// 리스트를 리턴한다.
 		return commentViewList;
 	}
+	public void deleteCommentByPostId(int postId) {
+		commentDAO.deleteCommentByPostId(postId);
+	}
 }
 
 

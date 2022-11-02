@@ -50,7 +50,7 @@
 
 					<%-- 좋아요 --%>
 					<div class="card-like m-3">
-						<a href="#" class="like-btn" data-post-id=${card.post.id }> 
+						<a  class="like-btn" data-post-id=${card.post.id }> 
 							<c:if
 								test="${card.filledLike eq true}">
 								<img
@@ -221,7 +221,7 @@
 					}
 					
 					let postId = $(this).data('post-id');
-					alert(postId);
+					//alert(postId);
 					$.ajax({
 						url:"/like/" + postId
 						, success:function(data) {
@@ -285,7 +285,7 @@
 					e.preventDefault();
 
 					let postId = $('#modal').data('post-id');
-					alert(postId);
+					//alert(postId);
 
 					$.ajax({
 						type : "DELETE",
@@ -296,7 +296,7 @@
 						success : function(data) {
 							if (data.code == 100) {
 								alert("삭제 되었습니다.");
-								location.href = "/post/post_list_view";
+								location.href = "/timeline/timeline_view";
 							} else {
 								alert(data.errorMessage);
 							}
