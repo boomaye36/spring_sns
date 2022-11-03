@@ -40,7 +40,7 @@
 		FROM 
 			`comment`
 		WHERE 
-			`id`=#{postId}
+			`postId`=#{postId}
 	</delete>
 </mapper>
 
